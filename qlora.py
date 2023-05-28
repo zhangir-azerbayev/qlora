@@ -517,6 +517,11 @@ def make_data_module(tokenizer: transformers.PreTrainedTokenizer, args) -> Dict:
     # LongForm
     elif args.dataset == 'longform':
         dataset = load_dataset("akoksal/LongForm")
+    elif args.dataset =='competition_math': 
+        dataset = load_dataset("competition_math")
+        for old, new in [["problem", "input"], ["solution", "output"]]: 
+            dataset = dataset.rename_column(old, new)
+            dataset = dataset.remove_columns("level", "type")
     elif args.dataset == 'vicuna':
         raise NotImplementedError("Vicuna data was not released.")
     else:
